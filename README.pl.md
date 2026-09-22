@@ -6,7 +6,7 @@ Pokazuje na Discordzie nazwe gry Diablo II: Resurrected, w ktorej jestes: w
 statusie na profilu albo jako wiadomosc na kanale.
 
 - 🎮 Wykrywa kazda gre, do ktorej wejdziesz.
-- 💬 Wysyla nazwe gry do statusu Discorda, na kanal albo w oba miejsca i kopiuje ja do schowka.
+- 💬 Wysyla nazwe gry do statusu Discorda, na kanal albo w oba miejsca.
 - 🖥️ Dziala na Windowsie 10/11 i Linuksie (X11).
 - 🌐 Okno programu jest po polsku albo po angielsku.
 
@@ -39,11 +39,11 @@ moze wyjsc czarny.
 
 ### Linux (X11)
 
-Potrzebne sa `maim`, `xdotool`, `xclip`, `libnotify` oraz pakiety Pythona
+Potrzebne sa `maim`, `xdotool`, `libnotify` oraz pakiety Pythona
 `pillow` i `numpy`. `pystray` jest opcjonalny i dodaje ikone w zasobniku. Na
 Arch Linux:
 
-    sudo pacman -S maim xdotool xclip libnotify python-pillow python-numpy python-pystray
+    sudo pacman -S maim xdotool libnotify python-pillow python-numpy python-pystray
     git clone https://github.com/pablowrw/d2r-relay.git
     cd d2r-relay
     ./d2rgui.py

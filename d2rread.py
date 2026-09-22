@@ -1038,19 +1038,6 @@ def notify(title, body):
         pass
 
 
-def to_clipboard(text):
-    try:
-        if WINDOWS:
-            subprocess.run(["clip"], input=text.encode("utf-16"), capture_output=True,
-                           creationflags=subprocess.CREATE_NO_WINDOW)
-            return
-        for sel in ("clipboard", "primary"):
-            subprocess.Popen(["xclip", "-selection", sel],
-                             stdin=subprocess.PIPE).communicate(text.encode())
-    except OSError:
-        pass                    # brak xclip - schowek to tylko dodatek
-
-
 def commit(name, source):
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -1059,7 +1046,6 @@ def commit(name, source):
                                        ensure_ascii=False) + "\n", encoding="utf-8")
     with LOG.open("a", encoding="utf-8") as f:
         f.write("%s\t%s\t%s\n" % (ts, name, source))
-    to_clipboard(name)
     notify("D2R - nazwa gry", name)
     return name
 

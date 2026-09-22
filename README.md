@@ -6,7 +6,7 @@ Shows the name of the Diablo II: Resurrected game you are in on Discord, either
 in your profile status or as a message in a channel.
 
 - 🎮 Detects every game you join.
-- 💬 Sends the game name to your Discord status, a channel, or both, and copies it to the clipboard.
+- 💬 Sends the game name to your Discord status, a channel, or both.
 - 🖥️ Runs on Windows 10/11 and Linux (X11).
 - 🌐 The interface is available in English and Polish.
 
@@ -39,10 +39,10 @@ the screenshot may come out black.
 
 ### Linux (X11)
 
-You need `maim`, `xdotool`, `xclip`, `libnotify` and the Python packages
+You need `maim`, `xdotool`, `libnotify` and the Python packages
 `pillow` and `numpy`. `pystray` is optional and adds a tray icon. On Arch Linux:
 
-    sudo pacman -S maim xdotool xclip libnotify python-pillow python-numpy python-pystray
+    sudo pacman -S maim xdotool libnotify python-pillow python-numpy python-pystray
     git clone https://github.com/pablowrw/d2r-relay.git
     cd d2r-relay
     ./d2rgui.py
