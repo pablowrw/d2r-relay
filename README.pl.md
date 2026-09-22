@@ -65,14 +65,19 @@ gry otworz na chwile mape. Odczyt trwa zwykle kilka sekund.
 Zakladka **Kalibracja** prowadzi Cie krok po kroku. Wystarczy to zrobic raz dla
 danej rozdzielczosci gry:
 
-1. **Rozpoznawanie lobby.** Wejdz do lobby i potwierdzaj zrzuty przyciskiem na
-   karcie.
-2. **Nauka nazw gier.** D2R Relay podaje nazwe gry. Wtedy:
-   1. zaloz gre o tej nazwie (przycisk **Kopiuj**, a w grze Ctrl+V),
-   2. wejdz do niej, otworz mape i poczekaj na potwierdzenie,
-   3. wyjdz z gry.
+**Krok 1: Rozpoznawanie lobby**
 
-   Postep sie zapisuje, wiec mozesz przerwac i wrocic pozniej.
+1. Wejdz do lobby.
+2. Potwierdzaj zrzuty przyciskiem na karcie.
+
+**Krok 2: Nauka nazw gier**
+
+1. D2R Relay podaje nazwe gry. Kliknij **Kopiuj**.
+2. Zaloz gre o tej nazwie (w grze Ctrl+V).
+3. Wejdz do gry, otworz mape i poczekaj na potwierdzenie.
+4. Wyjdz z gry. D2R Relay poda kolejna nazwe.
+
+Postep sie zapisuje, wiec mozesz przerwac i wrocic pozniej.
 
 ## ▶️ Uzycie
 

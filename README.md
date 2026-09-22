@@ -64,14 +64,19 @@ moment after joining a game. The name is usually read within a few seconds.
 The **Calibration** tab walks you through setup. You need to do it once per
 game resolution:
 
-1. **Lobby recognition.** Go to the lobby and confirm the screenshots with the
-   button on the card.
-2. **Learning game names.** D2R Relay gives you a game name. Then:
-   1. create a game with that name (**Copy** button, then Ctrl+V in the game),
-   2. join it, open the map and wait for the confirmation,
-   3. leave the game.
+**Step 1: Lobby recognition**
 
-   Progress is saved, so you can stop and continue later.
+1. Go to the lobby.
+2. Confirm the screenshots with the button on the card.
+
+**Step 2: Learning game names**
+
+1. D2R Relay gives you a game name. Click **Copy**.
+2. Create a game with that name (Ctrl+V in the game).
+3. Join the game, open the map and wait for the confirmation.
+4. Leave the game. D2R Relay gives you the next name.
+
+Progress is saved, so you can stop and continue later.
 
 ## ▶️ Usage
 
