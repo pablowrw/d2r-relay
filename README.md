@@ -1,150 +1,160 @@
 # D2R Relay
 
-Przekazuje nazwe gry Diablo II: Resurrected, w ktorej wlasnie jestes, na
-Discorda: do statusu na Twoim profilu albo jako wiadomosc na kanale, np. zeby
-znajomi mogli od razu dolaczyc.
+**English** | [Polski](README.pl.md)
 
-- Program sam wykrywa wejscie do gry, Twojej albo cudzej.
-- Nazwa gry pokazuje sie w statusie Discorda, na kanale albo w obu miejscach naraz, i trafia tez do schowka.
-- Dziala na Windowsie 10/11 i Linuksie (X11).
-- Okno programu jest po polsku albo po angielsku.
+Shows the name of the Diablo II: Resurrected game you are in on Discord, either
+in your profile status or as a message in a channel.
 
-## Bezpieczenstwo
+- 🎮 Detects every game you join.
+- 💬 Sends the game name to your Discord status, a channel, or both, and copies it to the clipboard.
+- 🖥️ Runs on Windows 10/11 and Linux (X11).
+- 🌐 The interface is available in English and Polish.
 
-- Program **tylko robi zrzut okna gry** i rozpoznaje na nim tekst. Nie czyta
-  pamieci gry, niczego nie wstrzykuje i nie zmienia plikow gry. Dla Battle.net
-  to zwykly zrzut ekranu.
-- **Hasla gry nie odczytuje.** Linia `Password:` jest pomijana.
-- Wszystko zostaje na Twoim komputerze. Na zewnatrz idzie tylko wiadomosc na
-  kanal, jesli ja wlaczysz.
-- Nie pisze z Twojego konta Discord. Wiadomosci wysyla webhook kanalu, bo
-  automatyczne wiadomosci z konta uzytkownika lamia regulamin Discorda.
+## 🛡️ Safety
 
-## Instalacja
+- D2R Relay only takes screenshots of the game window and recognises text on
+  them. It does not read game memory, inject anything or modify game files. To
+  Battle.net it is an ordinary screenshot.
+- Everything stays on your computer. The only thing sent out is the channel
+  message, and only if you turn it on.
+
+## 📥 Installation
 
 ### Windows
 
-1. Pobierz **`D2R-Relay-setup.exe`** z
-   [najnowszego wydania](https://github.com/pablowrw/d2r-relay/releases/latest).
-2. Uruchom instalator. Uprawnienia administratora nie sa potrzebne. Program
-   pojawi sie w menu Start (opcjonalnie tez na pulpicie) i na liscie aplikacji
-   do odinstalowania.
+1. Download **`D2R-Relay-setup.exe`** from the
+   [latest release](https://github.com/pablowrw/d2r-relay/releases/latest).
+2. Run the installer. No administrator rights are needed. The installer adds
+   D2R Relay to the Start menu, optionally to the desktop, and to the list of
+   installed apps.
 
-Plik nie jest podpisany cyfrowo, wiec Windows SmartScreen moze pokazac
-ostrzezenie. Wybierz wtedy **Wiecej informacji -> Uruchom mimo to**.
+The file is not digitally signed, so Windows SmartScreen may show a warning.
+Click **More info → Run anyway**.
 
-Wersja bez instalacji: pobierz `D2R-Relay-windows.zip`, rozpakuj go i uruchom
+To run without installing, download `D2R-Relay-windows.zip`, extract it and run
 `D2R-Relay.exe`.
 
-W D2R ustaw tryb **Windowed (Fullscreen)** albo okno. W pelnym ekranie zrzut
-bywa czarny.
+In D2R, use **Windowed (Fullscreen)** or windowed mode. In exclusive fullscreen
+the screenshot may come out black.
 
 ### Linux (X11)
 
-Potrzebne sa `maim`, `xdotool`, `xclip` i `libnotify` oraz pakiety Pythona
-`pillow` i `numpy`. Pakiet `pystray` jest opcjonalny i daje ikone w zasobniku.
-Przyklad dla Arch Linux:
+You need `maim`, `xdotool`, `xclip`, `libnotify` and the Python packages
+`pillow` and `numpy`. `pystray` is optional and adds a tray icon. On Arch Linux:
 
     sudo pacman -S maim xdotool xclip libnotify python-pillow python-numpy python-pystray
     git clone https://github.com/pablowrw/d2r-relay.git
     cd d2r-relay
     ./d2rgui.py
 
-Skrot w menu aplikacji:
+To add an application menu entry:
 
     sed "s|@DIR@|$PWD|g" d2r-relay.desktop > ~/.local/share/applications/d2r-relay.desktop
 
-Wayland nie jest obslugiwany.
+Wayland is not supported.
 
-## Pierwsze uruchomienie
+## 🗺️ How it works
 
-Zakladka **Kalibracja** prowadzi krok po kroku. Wystarczy to zrobic raz dla
-danej rozdzielczosci:
+D2R shows the game name in the top-right corner of the screen **only while the
+map is open** (Tab). D2R Relay reads the name from there, so open the map for a
+moment after joining a game. The name is usually read within a few seconds.
 
-1. **Rozpoznawanie lobby.** Wejdz do lobby i potwierdzaj zrzuty przyciskiem na
-   karcie.
-2. **Nauka nazw gier.** Program podaje nazwe gry, a Ty:
-   1. zakladasz gre o tej nazwie (przycisk **Kopiuj**, w grze Ctrl+V),
-   2. wchodzisz do niej i czekasz na potwierdzenie,
-   3. wychodzisz.
+## 🎯 First run
 
-   Postep sie zapisuje, wiec mozesz przerwac i wrocic pozniej.
+The **Calibration** tab walks you through setup. You need to do it once per
+game resolution:
 
-## Uzycie
+1. **Lobby recognition.** Go to the lobby and confirm the screenshots with the
+   button on the card.
+2. **Learning game names.** D2R Relay gives you a game name. Then:
+   1. create a game with that name (**Copy** button, then Ctrl+V in the game),
+   2. join it, open the map and wait for the confirmation,
+   3. leave the game.
 
-Przycisk **Start** wlacza odczyt. Przelaczniki pod nim decyduja, dokad trafia
-nazwa gry: do statusu na profilu, na kanal albo w oba miejsca. Nizej widac
-historie odczytanych gier.
+   Progress is saved, so you can stop and continue later.
 
-Ustawienia zapisuja sie same. Obie zakladki Discorda maja podglad tego, co
-zobacza inni, i przycisk proby.
+## ▶️ Usage
 
-### Status na profilu
+The **Start** button turns reading on. The switches below it choose where the
+game name goes: your profile status, a channel, or both. The **History** list
+below shows the games read so far.
 
-Nazwa gry pokazuje sie w Twoim statusie Discorda, pod Twoim imieniem. Nie
-trzeba zakladac bota, wystarczy wlaczony Discord na tym samym komputerze. Do
-wyboru jest miejsce nazwy gry:
+Settings save automatically. Both Discord tabs show a preview of what others
+will see and have a test button.
 
-- w tytule statusu (zalecane, bo wtedy widac ja na liscie osob na serwerze),
-- w opisie,
-- we wlasnym ukladzie.
+### 👤 Profile status
 
-### Wiadomosci na kanal
+The game name appears in your Discord status, under your name. No bot is
+needed, only the Discord app running on the same computer. You can choose where
+the game name appears:
 
-1. Na kanale Discorda wybierz **Edytuj kanal -> Integracje -> Webhooki -> Nowy
-   webhook -> Kopiuj adres webhooka**.
-2. Wklej adres w zakladce **Wiadomosci na kanal** i kliknij **Wyprobuj na
-   kanale**.
+- in the status title (recommended, because it also shows in the server member
+  list),
+- in the details line,
+- in a custom layout.
 
-Mozesz ustawic tresc wiadomosci, nazwe nadawcy i awatar.
+### 📢 Channel messages
 
-- Wiadomosci nikogo nie pinguja.
-- Ta sama gra nie jest wysylana ponownie przez ustawiony czas (domyslnie 90 s).
-- Adres webhooka jest zapisany tylko na Twoim komputerze. Traktuj go jak haslo:
-  kto go ma, moze pisac na kanal.
+1. In Discord, open the channel settings and go to **Integrations → Webhooks →
+   New Webhook → Copy Webhook URL**.
+2. Paste the URL in the **Channel messages** tab and click **Try in channel**.
 
-### Ogolne
+You can set the message text, sender name and avatar.
 
-W tej zakladce ustawisz:
+- Messages do not ping anyone.
+- The same game is not sent again within a set time (90 s by default).
+- The webhook URL is stored only on your computer. Treat it like a password,
+  because anyone who has it can post in the channel.
 
-- jezyk okna,
-- uruchamianie razem z systemem,
-- wlaczanie odczytu od razu po starcie,
-- chowanie okna do zasobnika zamiast zamykania.
+### ⚙️ General
 
-Naraz dziala tylko jedna kopia programu. Ponowne uruchomienie pokazuje okno juz
-dzialajacej kopii.
+Here you can set:
 
-## Ograniczenia
+- the interface language,
+- starting with the system,
+- turning reading on right after start,
+- hiding to the tray instead of closing.
 
-- Okno gry musi byc aktywne. Zasloniete okno nie da sie odczytac, wtedy
-  zostaje ostatnia odczytana nazwa.
-- Nazwa gry jest w rogu ekranu tylko przez chwile po wejsciu do gry. Program
-  lapie ja zwykle w kilka sekund.
-- Przy oknie 720p i mniejszym odczyt bywa zawodny.
-- Status na profilu widac tylko wtedy, gdy Discord jest wlaczony. Znika po
-  zatrzymaniu odczytu.
+Only one copy of D2R Relay runs at a time. Launching it again brings up the
+window of the running copy.
 
-## Budowanie ze zrodel (Windows)
+## ⚠️ Limitations
 
-Potrzebny jest Python 3.10.1 lub nowszy z python.org, zainstalowany z opcjami
-"Add python.exe to PATH" i "tcl/tk and IDLE", oraz Inno Setup:
+- The game window must be active. A covered window cannot be read, so the last
+  name read stays.
+- With the window at 720p or smaller, reading can be unreliable.
+- The profile status is visible only while Discord is running. It disappears
+  when reading stops.
+
+## 🔧 Building from source (Windows)
+
+You need:
+
+- Python 3.10.1 or newer from python.org, installed with "Add python.exe to
+  PATH" and "tcl/tk and IDLE",
+- Inno Setup.
+
+Then run:
 
     winget install JRSoftware.InnoSetup
     git clone https://github.com/pablowrw/d2r-relay.git
     cd d2r-relay
     windows\build.bat
 
-Wynik trafia do katalogu `dist`: `D2R-Relay-setup.exe`,
-`D2R-Relay-windows.zip` i folder `D2R-Relay`. Wydania na GitHubie buduje
-workflow `.github/workflows/release.yml` po wypchnieciu tagu `v*`.
+The results go to `dist`: `D2R-Relay-setup.exe`, `D2R-Relay-windows.zip` and
+the `D2R-Relay` folder. GitHub releases are built by
+`.github/workflows/release.yml` when a `v*` tag is pushed.
 
-## Ustawienia i dane
+## 📁 Settings and data
 
-| System | Ustawienia | Dane |
+| System | Settings | Data |
 | --- | --- | --- |
 | Windows | `%APPDATA%\d2r-relay` | `%LOCALAPPDATA%\d2r-relay` |
 | Linux | `~/.config/d2r-relay` | `~/.local/share/d2r-relay` |
 
-Deinstalacja zostawia te katalogi. Jesli chcesz usunac tez ustawienia, skasuj
-je recznie.
+Uninstalling keeps these folders. To remove your settings as well, delete them
+manually.
+
+## 📄 License
+
+[MIT](LICENSE)

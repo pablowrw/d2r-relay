@@ -1,7 +1,7 @@
-**Windows:** pobierz `D2R-Relay-setup.exe` i uruchom (bez uprawnien administratora).
-Wersja bez instalacji: `D2R-Relay-windows.zip` - rozpakuj i uruchom `D2R-Relay.exe`.
+**Windows:** download `D2R-Relay-setup.exe` and run it (no administrator rights needed).
+Portable version: `D2R-Relay-windows.zip` - extract and run `D2R-Relay.exe`.
 
-Plik nie jest podpisany cyfrowo, wiec Windows SmartScreen moze pokazac ostrzezenie:
-**Wiecej informacji -> Uruchom mimo to**.
+The files are not digitally signed, so Windows SmartScreen may show a warning:
+**More info → Run anyway**.
 
-Instrukcja: [README](https://github.com/pablowrw/d2r-relay#readme).
+See the [README](https://github.com/pablowrw/d2r-relay#readme) ([Polski](https://github.com/pablowrw/d2r-relay/blob/main/README.pl.md)).
