@@ -1038,6 +1038,19 @@ def notify(title, body):
         pass
 
 
+LOG_KEEP = 1000        # historia gier: tyle ostatnich wpisow zostaje w games.log
+
+
+def trim_log():
+    """Przyciecie historii; przepisywana dopiero przy 20% nadwyzki, nie co gre."""
+    try:
+        lines = LOG.read_text(encoding="utf-8").splitlines(keepends=True)
+    except OSError:
+        return
+    if len(lines) > LOG_KEEP * 1.2:
+        LOG.write_text("".join(lines[-LOG_KEEP:]), encoding="utf-8")
+
+
 def commit(name, source):
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -1046,6 +1059,7 @@ def commit(name, source):
                                        ensure_ascii=False) + "\n", encoding="utf-8")
     with LOG.open("a", encoding="utf-8") as f:
         f.write("%s\t%s\t%s\n" % (ts, name, source))
+    trim_log()
     notify("D2R - nazwa gry", name)
     return name
 
