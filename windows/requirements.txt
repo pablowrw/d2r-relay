@@ -1,0 +1,5 @@
+# Zaleznosci do zbudowania exe na Windowsie (build.bat instaluje je w .venv-build)
+numpy
+pillow
+pystray
+pyinstaller

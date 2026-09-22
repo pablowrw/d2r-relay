@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=D2R Relay
+GenericName=Diablo II: Resurrected na Discordzie
+Comment=Pokazuje nazwe gry D2R w statusie Discorda i na kanale
+Exec=@DIR@/d2rgui.py
+Icon=@DIR@/icon.png
+Terminal=false
+Categories=Game;
+StartupNotify=true
+StartupWMClass=D2r-relay
