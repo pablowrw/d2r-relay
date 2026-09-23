@@ -439,13 +439,18 @@ def match_glyph(piece, glyphs, cfg, scale=1.0, box=None, allow_split=True):
         dh, dw = abs(t["h"] - h), abs(t["w"] - w)
         if dh > 1 or dw > 2:
             continue
-        if box is not None:
-            dt, db = abs(t["t"] - box.top), abs(t["b"] - box.bot)
-            if max(t["h"], h) <= 3 and max(dt, db) > 1:
-                continue                      # '-' kontra '_': decyduje wysokosc
-        else:
-            dt = db = 0
-        d = shift_dist(p, arr_of(t)) + 0.12 * (dh + dw) + 0.06 * (dt + db)
+        # Polozenie w pionie rozstrzyga tylko przy plaskich kreskach ('-' kontra
+        # '_'), bo maja ten sam ksztalt. Wyzsze znaki rozpoznaje sam ksztalt, a
+        # kara za polozenie im szkodzila: odleglosci licza sie wzgledem
+        # skrajnego tuszu linii, a ten skacze z jej trescia. Dlatego bierzemy
+        # tylko odleglosc od gory - dol przesuwa kazda cyfra i ogonek w nazwie,
+        # gora trzyma sie wielkiej litery z "Game:".
+        dt = 0
+        if box is not None and max(t["h"], h) <= 3:
+            dt = abs(t["t"] - box.top)
+            if dt > 1:
+                continue
+        d = shift_dist(p, arr_of(t)) + 0.12 * (dh + dw) + 0.06 * dt
         if d < best_d:
             best_d, best_ch = d, t["c"]
     if best_d <= cfg["match_max"]:
@@ -520,11 +525,18 @@ def text_from_boxes(boxes, glyphs, cfg, scale=1.0):
             if any(gaps[t] >= space_at for t in range(i, j - 1)):
                 continue                       # nie sklejamy przez spacje
             b = merge_boxes(boxes[i:j])
-            ch, d = match_glyph(b.piece, glyphs, cfg, scale, box=b)
+            # Sklejone runy tnie juz tylko na jedna litere: laczenie sluzy
+            # literom rozerwanym przez prog, ciecie - literom zlepionym.
+            # Oba naraz na tym samym kawalku dorabialy litery, ktorych nie ma.
+            ch, d = match_glyph(b.piece, glyphs, cfg, scale, box=b,
+                                allow_split=(k == 1))
             if ch == "?":
                 continue
             sep = " " if i and gaps[i - 1] >= space_at else ""
-            cost = dp[i][0] + d + 0.03
+            # Koszt liczymy za kazda litere. match_glyph po cieciu runu oddaje
+            # kilka liter i srednie niedopasowanie - liczone raz bylo tansze niz
+            # te same litery osobno, wiec DP dokladalo zmyslony znak.
+            cost = dp[i][0] + (d + 0.03) * len(ch)
             if cost < dp[j][0]:
                 dp[j] = (cost, dp[i][1] + sep + ch)
     if dp[n][0] < INF:
