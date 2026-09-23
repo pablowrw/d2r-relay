@@ -11,7 +11,7 @@ Nie czyta pamieci procesu i nic nie wstrzykuje - robi tylko zrzut wlasnego
 okna (maim) i rozpoznaje tekst dopasowaniem wzorcow glifow czcionki D2R.
 Hasla sie nie da odczytac: gra maskuje pole gwiazdkami.
 
-Komendy: calibrate | teach | teach --lobby | once | now | watch | check | regions | bump
+Komendy: calibrate | teach | teach --lobby | once | now | watch | check | hud | regions | bump
 Discord: presence (status na profilu) | discord (wiadomosc na kanal)
          watch --presence --discord
 """
@@ -1332,6 +1332,44 @@ def cmd_check(args, cfg):
         sys.exit(1)
 
 
+def cmd_hud(args, cfg):
+    """Diagnostyka linii 'Game:' - co widzi kazdy prog maski.
+
+    Uruchamiane recznie, gdy nazwa czyta sie z dodatkowa litera. Zapisuje
+    wycinek linii do pliku i wypisuje odczyt wraz z szerokoscia i odstepem
+    kazdego glifu, zeby bylo widac, skad bierze sie nadmiarowy znak.
+    """
+    win = need_window()
+    fonts, meta = load_glyphs()
+    fonts, meta = for_window(fonts, meta, win[4])
+    glyphs = fonts["hud"]
+    base = win_scale(win, meta)
+    if args.wait:
+        print("mam %d s - przejdz do gry i otworz mape (Tab)" % args.wait, flush=True)
+        time.sleep(args.wait)
+    if not hud_calibrated(win):
+        rect = locate_hud(win, cfg, glyphs)
+        if not rect:
+            print("nie znalazlem linii 'Game:' - czy mapa jest otwarta?", file=sys.stderr)
+            sys.exit(2)
+        remember_hud(win, rect)
+    for shot in range(args.shots):
+        if shot:
+            time.sleep(1.0)
+        img = grab(win, px=hud_rect(win, cfg))
+        out = "%s-%d.png" % (args.out.removesuffix(".png"), shot + 1)
+        img.save(out)
+        print("\nzrzut %d: %s" % (shot + 1, out))
+        for level in cfg["hud_levels"]:
+            boxes = hud_boxes(win, cfg, level, img=img)
+            name = hud_name_at(img, win, cfg, glyphs, base, level)
+            geo = " ".join("%s%dx%d" % ("+%d " % (b.x0 - boxes[i - 1].x1) if i else "",
+                                        b.piece.shape[1], b.piece.shape[0])
+                           for i, b in enumerate(boxes))
+            print("  prog %-5s glifow %2d  nazwa %-20s %s"
+                  % (level, len(boxes), repr(name), geo))
+
+
 def cmd_regions(args, cfg):
     win = need_window()
     img = grab(win)
@@ -1672,6 +1710,10 @@ def main():
                     help="wyslij probna wiadomosc (opcjonalnie wlasna nazwa)")
     dc.add_argument("--off", action="store_true", help="zapomnij webhook")
     sub.add_parser("check")
+    h = sub.add_parser("hud", help="diagnostyka odczytu linii 'Game:'")
+    h.add_argument("--wait", type=int, default=0, help="odczekaj tyle sekund przed zrzutem")
+    h.add_argument("--shots", type=int, default=3, help="ile zrzutow po kolei")
+    h.add_argument("--out", default="/tmp/d2r-hud.png", help="gdzie zapisac wycinki")
     r = sub.add_parser("regions"); r.add_argument("-o", "--out")
     sub.add_parser("calibrate", help="zapamietaj lobby na tym ekranie")
     t = sub.add_parser("teach")
@@ -1685,7 +1727,7 @@ def main():
         b.add_argument("--" + f, type=int, default=0)
     args = ap.parse_args()
     cfg = load_config()
-    {"once": cmd_once, "now": cmd_now, "watch": cmd_watch, "check": cmd_check,
+    {"once": cmd_once, "now": cmd_now, "watch": cmd_watch, "check": cmd_check, "hud": cmd_hud,
      "regions": cmd_regions, "teach": cmd_teach, "calibrate": cmd_calibrate, "bump": cmd_bump,
      "presence": cmd_presence, "discord": cmd_discord}[args.cmd](args, cfg)
 
