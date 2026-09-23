@@ -70,6 +70,7 @@ DEFAULTS = {
     "hud_gap": 26,           # wieksza przerwa = obcy napis obok linii HUD
     "merge_max": 3,          # ile sasiednich runow wolno skleic w jedna litere
     "hud_levels": ["otsu", 0.30, 0.35, 0.42, 0.50],   # progi maski HUD po kolei
+    "hud_votes": 2,          # tyle progow musi dac te sama nazwe (patrz hud_game_name)
     # Oficjalny wpis D2R z bazy wykrywanych gier Discorda. Dzieki niemu status
     # niesie prawdziwa nazwe i grafike gry, a wykrywanie procesu przez Discorda
     # sie z nim sklei, zamiast zrobic drugi wpis obok. Wlasna aplikacja z
@@ -764,6 +765,11 @@ def hud_game_name(win, cfg, glyphs, meta):
 
     Odczyt z choc jednym '?' odrzucamy: lepiej nie podac nazwy i sprobowac za
     chwile niz zapisac zmyslona.
+
+    Progi maski daja czasem rozne ciecia tej samej linii i przy jednym z nich
+    cienka kreska dokleja sie jako osobna litera. Dlatego
+    nazwa musi wyjsc tak samo przy kilku progach; pojedynczy odczyt odrzucamy
+    i probujemy przy nastepnym zrzucie.
     """
     base = win_scale(win, meta)
     if not hud_calibrated(win):
@@ -778,10 +784,13 @@ def hud_game_name(win, cfg, glyphs, meta):
             return ""
         remember_hud(win, rect)
     img = grab(win, px=hud_rect(win, cfg))
+    votes = collections.Counter()
     for level in cfg["hud_levels"]:
         name = hud_name_at(img, win, cfg, glyphs, base, level)
         if name and "?" not in name:
-            return name
+            votes[name] += 1
+            if votes[name] >= cfg["hud_votes"]:
+                return name
     return ""
 
 
